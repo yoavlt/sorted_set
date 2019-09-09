@@ -92,8 +92,14 @@ defmodule SortedSet do
       iex> SortedSet.to_list SortedSet.put(set, 2)
       [1,2,3,5]
   """
-  def put(%SortedSet{members: members}, key, element) do
-    new_tree = RedBlackTree.insert members, key, element
+  def put(set = %SortedSet{}, key, element) do
+    new_set =
+      if SortedSet.member?(set, key) do
+        delete(set, key)
+      else
+        set
+      end
+    new_tree = RedBlackTree.insert new_set.members, key, element
     %SortedSet{members: new_tree, size: new_tree.size}
   end
 
