@@ -19,7 +19,7 @@ defmodule SortedSet.Mixfile do
 
   defp deps do
     [
-      {:red_black_tree, "~> 1.2"},
+      {:red_black_tree, github: "yoavlt/red_black_tree", override: true},
       {:earmark, "~> 0.1", only: :dev},
       {:ex_doc, "~> 0.7", only: :dev}
     ]

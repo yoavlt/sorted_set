@@ -1,3 +1,5 @@
-%{"earmark": {:hex, :earmark, "0.1.16"},
-  "ex_doc": {:hex, :ex_doc, "0.7.2"},
-  "red_black_tree": {:hex, :red_black_tree, "1.2.0"}}
+%{
+  "earmark": {:hex, :earmark, "0.1.16", "cee9de895441c45c1ab955cca3c7e4086b3e6e2661934ed9b70424add15820a3", [:mix], [], "hexpm"},
+  "ex_doc": {:hex, :ex_doc, "0.7.2", "c24bd9efdace906c23c943280a3d29c15e649e4c0eeca92f6ee35723f44691a7", [:mix], [], "hexpm"},
+  "red_black_tree": {:git, "https://github.com/yoavlt/red_black_tree.git", "e2de845ecb8b6130dc7137af8a04128d09119869", []},
+}

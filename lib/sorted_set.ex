@@ -48,8 +48,8 @@ defmodule SortedSet do
       members: RedBlackTree.new([], comparator: comparator)
     }
 
-    Enum.reduce(members, new_set, fn(member, set) ->
-      put(set, member)
+    Enum.reduce(members, new_set, fn({key, member}, set) ->
+      put(set, key, member)
     end)
   end
 
@@ -74,8 +74,8 @@ defmodule SortedSet do
       [1,3,5]
   """
   def to_list(%SortedSet{members: members}) do
-    Enum.reduce(members, [], fn ({key, _value}, acc) ->
-      [key | acc]
+    Enum.reduce(members, [], fn ({key, value}, acc) ->
+      [{key, value} | acc]
     end) |> Enum.reverse
   end
 
@@ -231,8 +231,8 @@ defmodule SortedSet do
       [0,1,2,3,4,5,7]
   """
   def union(%SortedSet{size: size1}=set1, %SortedSet{size: size2}=set2) when size1 <= size2  do
-    Enum.reduce(to_list(set1), set2, fn(member, new_set) ->
-      put(new_set, member)
+    Enum.reduce(to_list(set1), set2, fn({key, member}, new_set) ->
+      put(new_set, key, member)
     end)
   end
 
@@ -262,9 +262,9 @@ defmodule SortedSet do
       [3,5]
   """
   def intersection(%SortedSet{size: size1}=set1, %SortedSet{size: size2}=set2) when size1 <= size2 do
-    Enum.reduce(to_list(set1), SortedSet.new, fn(set1_member, new_set) ->
-      if SortedSet.member?(set2, set1_member) do
-        SortedSet.put(new_set, set1_member)
+    Enum.reduce(to_list(set1), SortedSet.new, fn({set1_key, set1_member}, new_set) ->
+      if SortedSet.member?(set2, set1_key) do
+        SortedSet.put(new_set, set1_key, set1_member)
       else
         new_set
       end
@@ -318,7 +318,7 @@ end
 defimpl Collectable, for: SortedSet do
   def into(original) do
     {original, fn
-      set, {:cont, new_member} -> SortedSet.put(set, new_member)
+      set, {:cont, {new_key, new_member}} -> SortedSet.put(set, new_key, new_member)
       set, :done -> set
       _, :halt -> :ok
     end}
