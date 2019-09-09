@@ -92,8 +92,8 @@ defmodule SortedSet do
       iex> SortedSet.to_list SortedSet.put(set, 2)
       [1,2,3,5]
   """
-  def put(%SortedSet{members: members}, element) do
-    new_tree = RedBlackTree.insert members, element, element
+  def put(%SortedSet{members: members}, key, element) do
+    new_tree = RedBlackTree.insert members, key, element
     %SortedSet{members: new_tree, size: new_tree.size}
   end
 
@@ -114,8 +114,9 @@ defmodule SortedSet do
       iex> SortedSet.to_list SortedSet.delete(set, 2)
       []
   """
-  def delete(%SortedSet{members: members}, element) do
-    new_tree = RedBlackTree.delete members, element
+  def delete(%SortedSet{members: members}, key) do
+    item     = RedBlackTree.get members, key
+    new_tree = RedBlackTree.delete members, item
     %SortedSet{members: new_tree, size: new_tree.size}
   end
 
@@ -134,8 +135,8 @@ defmodule SortedSet do
       iex> SortedSet.member?(set, 0)
       false
   """
-  def member?(%SortedSet{members: tree}, element) do
-    RedBlackTree.has_key? tree, element
+  def member?(%SortedSet{members: tree}, key) do
+    RedBlackTree.has_key? tree, key
   end
 
   # If the sizes are not equal, no need to check members
