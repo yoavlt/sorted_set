@@ -93,13 +93,7 @@ defmodule SortedSet do
       [1,2,3,5]
   """
   def put(set = %SortedSet{}, key, element) do
-    new_set =
-      if SortedSet.member?(set, key) do
-        delete(set, key)
-      else
-        set
-      end
-    new_tree = RedBlackTree.insert new_set.members, key, element
+    new_tree = RedBlackTree.insert set.members, key, element
     %SortedSet{members: new_tree, size: new_tree.size}
   end
 
@@ -121,8 +115,7 @@ defmodule SortedSet do
       []
   """
   def delete(%SortedSet{members: members}, key) do
-    item     = RedBlackTree.get members, key
-    new_tree = RedBlackTree.delete members, item
+    new_tree = RedBlackTree.delete members, key
     %SortedSet{members: new_tree, size: new_tree.size}
   end
 
